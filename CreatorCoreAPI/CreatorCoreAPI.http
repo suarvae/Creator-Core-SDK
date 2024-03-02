@@ -1,0 +1,6 @@
+@CreatorCoreAPI_HostAddress = http://localhost:5125
+
+GET {{CreatorCoreAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
