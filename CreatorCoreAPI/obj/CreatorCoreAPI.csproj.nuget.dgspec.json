@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\MMWA\\Desktop\\Rave House\\Company Tech\\Creator Core\\CreatorCoreAPI\\CreatorCoreAPI.csproj": {}
+    "C:\\Users\\MMWA\\Desktop\\Rave House\\Company Tech\\Creator Core SDK\\CreatorCoreAPI\\CreatorCoreAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\MMWA\\Desktop\\Rave House\\Company Tech\\Creator Core\\CreatorCoreAPI\\CreatorCoreAPI.csproj": {
+    "C:\\Users\\MMWA\\Desktop\\Rave House\\Company Tech\\Creator Core SDK\\CreatorCoreAPI\\CreatorCoreAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\MMWA\\Desktop\\Rave House\\Company Tech\\Creator Core\\CreatorCoreAPI\\CreatorCoreAPI.csproj",
+        "projectUniqueName": "C:\\Users\\MMWA\\Desktop\\Rave House\\Company Tech\\Creator Core SDK\\CreatorCoreAPI\\CreatorCoreAPI.csproj",
         "projectName": "CreatorCoreAPI",
-        "projectPath": "C:\\Users\\MMWA\\Desktop\\Rave House\\Company Tech\\Creator Core\\CreatorCoreAPI\\CreatorCoreAPI.csproj",
+        "projectPath": "C:\\Users\\MMWA\\Desktop\\Rave House\\Company Tech\\Creator Core SDK\\CreatorCoreAPI\\CreatorCoreAPI.csproj",
         "packagesPath": "C:\\Users\\MMWA\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\MMWA\\Desktop\\Rave House\\Company Tech\\Creator Core\\CreatorCoreAPI\\obj\\",
+        "outputPath": "C:\\Users\\MMWA\\Desktop\\Rave House\\Company Tech\\Creator Core SDK\\CreatorCoreAPI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\MMWA\\AppData\\Roaming\\NuGet\\NuGet.Config",

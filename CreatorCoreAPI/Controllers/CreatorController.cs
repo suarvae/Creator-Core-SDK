@@ -1,11 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CreatorCoreAPI.Data;
 using CreatorCoreAPI.Dtos.Creator;
+using CreatorCoreAPI.Interfaces;
 using CreatorCoreAPI.Mappers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CreatorCoreAPI.Controllers
 {
@@ -14,34 +12,68 @@ namespace CreatorCoreAPI.Controllers
     public class CreatorController: ControllerBase
     {
         private readonly ApplicationDBContext _context;
-        public CreatorController(ApplicationDBContext context) => _context = context;
+        private readonly ICreatorRepository _creatorRepo;
+
+        public CreatorController(ApplicationDBContext context, ICreatorRepository creatorRepository) 
+        {
+            _creatorRepo = creatorRepository;
+            _context = context;
+
+        } 
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var creators = _context.Creators.ToList().Select(c => c.ToCreatorDto()); 
+            var creators = await _creatorRepo.GetAllAsync(); 
+            
+            var creatorDto = creators.Select(c => c.ToCreatorDto());
+
             return Ok(creators);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById([FromRoute] int id)
+        public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            var creator = _context.Creators.Find(id);
-
-           if(creator == null){
-            return NotFound();
-           }
+            var creator = await _creatorRepo.GetByIdAsync(id);
+            
+            if(creator == null)
+                return NotFound();
            else
-            return Ok(creator.ToCreatorDto());
+                return Ok(creator.ToCreatorDto());
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] CreateCreatorRequestDto creatorDto)
+        public async Task<IActionResult> Create([FromBody] CreateCreatorRequestDto creatorDto)
         {
             var creatorModel = creatorDto.ToCreatorFromCreateDto();
-            _context.Creators.Add(creatorModel);
-            _context.SaveChanges();
+            await _creatorRepo.CreateAsync(creatorModel);
             return CreatedAtAction(nameof(GetById), new { id = creatorModel.creatorID }, creatorModel.ToCreatorDto());
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateCreatorRequestDto updateDto)
+        {
+            var creatorModel = await _creatorRepo.UpdateAsync(id, updateDto);
+
+            if(creatorModel == null)
+                return NotFound();
+                
+            return Ok(creatorModel.ToCreatorDto());
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            var creatorMode = await _creatorRepo.DeleteAsync(id);
+
+            if(creatorMode == null)
+                return NotFound();
+            else
+            {
+                return NoContent();
+            }
         }
     }
 }

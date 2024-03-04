@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "kzZJWgF23X9sbmfdzmXmImncHhivn13fjZgej3Aa6giXnv5gQZTsIEA1+SqJjpOth0CK3/ENfASEBGh5FMuYTA==",
+  "dgSpecHash": "Y2Z+KHiT1YF3/Q7YsGF+5dYk4pMAveN5deJPHSv8XBjtPSxU6yC5nVTeExSxgZlMjjzUyIL2D3MfiRYkfVVA2Q==",
   "success": true,
-  "projectFilePath": "C:\\Users\\MMWA\\Desktop\\Rave House\\Company Tech\\Creator Core\\CreatorCoreAPI\\CreatorCoreAPI.csproj",
+  "projectFilePath": "C:\\Users\\MMWA\\Desktop\\Rave House\\Company Tech\\Creator Core SDK\\CreatorCoreAPI\\CreatorCoreAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\MMWA\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\MMWA\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

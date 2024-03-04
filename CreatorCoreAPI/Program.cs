@@ -1,4 +1,6 @@
 using CreatorCoreAPI.Data;
+using CreatorCoreAPI.Interfaces;
+using CreatorCoreAPI.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,7 +18,8 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 
 });
 
-
+builder.Services.AddScoped<ICreatorRepository, CreatorRepository>();
+builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
