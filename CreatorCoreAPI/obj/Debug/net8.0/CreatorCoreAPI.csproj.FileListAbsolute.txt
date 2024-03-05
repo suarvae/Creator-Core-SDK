@@ -273,3 +273,7 @@ C:\Users\MMWA\Desktop\Rave House\Company Tech\Creator Core SDK\CreatorCoreAPI\ob
 C:\Users\MMWA\Desktop\Rave House\Company Tech\Creator Core SDK\CreatorCoreAPI\obj\Debug\net8.0\CreatorCoreAPI.pdb
 C:\Users\MMWA\Desktop\Rave House\Company Tech\Creator Core SDK\CreatorCoreAPI\obj\Debug\net8.0\CreatorCoreAPI.genruntimeconfig.cache
 C:\Users\MMWA\Desktop\Rave House\Company Tech\Creator Core SDK\CreatorCoreAPI\obj\Debug\net8.0\ref\CreatorCoreAPI.dll
+C:\Users\MMWA\Desktop\Rave House\Company Tech\Creator Core SDK\CreatorCoreAPI\bin\Debug\net8.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\MMWA\Desktop\Rave House\Company Tech\Creator Core SDK\CreatorCoreAPI\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\MMWA\Desktop\Rave House\Company Tech\Creator Core SDK\CreatorCoreAPI\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\MMWA\Desktop\Rave House\Company Tech\Creator Core SDK\CreatorCoreAPI\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll

@@ -20,5 +20,7 @@ namespace CreatorCoreAPI.Interfaces
       Task<Creator?> UpdateAsync(int id, UpdateCreatorRequestDto creatorRequestDto);
 
       Task<Creator?> DeleteAsync(int id);
+
+      Task<bool> CreatorExists(int id);
     }
 }

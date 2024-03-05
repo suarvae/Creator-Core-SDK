@@ -19,5 +19,29 @@ namespace CreatorCoreAPI.Mappers
                 clientID = transactionModel.clientID,
             };
         }
+
+         public static Transaction ToTransactionFromCreate(this CreateTransactionDto transactionDto, int id)
+        {
+            return new Transaction()
+            {
+                itemName = transactionDto.itemName,               
+                
+                transactionValue = transactionDto.transactionValue,
+
+                creatorID = id
+
+            };
+        }
+
+
+         public static Transaction ToTransactionFromUpdate(this UpdateTransactionRequestDto transactionDto)
+        {
+            return new Transaction()
+            {
+                itemName = transactionDto.itemName,               
+                
+                transactionValue = transactionDto.transactionValue,
+            };
+        }
     }
 }

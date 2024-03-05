@@ -26,6 +26,11 @@ namespace CreatorCoreAPI.Repository
             return creatorModel;
         }
 
+        public Task<bool> CreatorExists(int id)
+        {
+            return _context.Creators.AnyAsync(t => t.creatorID == id);
+        }
+
         public async Task<Creator?> DeleteAsync(int id)
         {
             var creator = await _context.Creators.FirstOrDefaultAsync(c => c.creatorID == id);
@@ -42,12 +47,12 @@ namespace CreatorCoreAPI.Repository
 
         public async Task<List<Creator>> GetAllAsync()
         {
-          return await _context.Creators.ToListAsync();
+          return await _context.Creators.Include(t => t.transactions).ToListAsync();
         }
 
         public async Task<Creator?> GetByIdAsync(int id)
         {
-            return await _context.Creators.FindAsync(id);
+            return await _context.Creators.Include(t => t.transactions).FirstOrDefaultAsync(i => i.creatorID == id);
         }
 
         public async Task<Creator?> UpdateAsync(int id, UpdateCreatorRequestDto creatorRequestDto)

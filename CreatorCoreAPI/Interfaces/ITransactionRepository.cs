@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CreatorCoreAPI.Models;
-
 
 namespace CreatorCoreAPI.Interfaces
 {
@@ -11,5 +6,12 @@ namespace CreatorCoreAPI.Interfaces
     {
         Task<List<Transaction>> GetAllAsync();
         
+        Task<Transaction?> GetByIdAsync(int id);
+
+        Task<Transaction> CreateAsyn(Transaction transactionModel);
+
+        Task<Transaction?> UpdateAsync(int id, Transaction transactionModel);
+
+        Task<Transaction?> DeleteAsync(int id);
     }
 }

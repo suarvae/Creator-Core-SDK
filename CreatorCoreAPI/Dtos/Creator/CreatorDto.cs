@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using CreatorCoreAPI.Dtos.Transaction;
 
 namespace CreatorCoreAPI.Dtos.Client.Creator.Transactions
 {
@@ -14,6 +11,6 @@ namespace CreatorCoreAPI.Dtos.Client.Creator.Transactions
 
         public decimal creatorRevenue{get;set;}
         public long lifeTimeEarnings{get;set;}
-        
+        public List<TransactionDto> transactions {get;set;}
     }
 }

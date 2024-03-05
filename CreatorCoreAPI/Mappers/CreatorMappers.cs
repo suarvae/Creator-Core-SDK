@@ -19,7 +19,8 @@ namespace CreatorCoreAPI.Mappers
                 creatorName = creatorModel.creatorName,
                 creatorRevenue = creatorModel.creatorRevenue,
                 creatorRevenueSplit = creatorModel.creatorRevenueSplit,
-                lifeTimeEarnings = creatorModel.lifeTimeEarnings
+                lifeTimeEarnings = creatorModel.lifeTimeEarnings,
+                transactions = creatorModel.transactions.Select(t => t.ToTransactionDto()).ToList()
             };
         }
 
