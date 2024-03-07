@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CreatorCoreAPI.Controllers
 {
-    [Route("creatorCoreAPI/creator")]
+    [Route("creatorCoreAPI/[Controller)]")]
     [ApiController]
     public class CreatorController: ControllerBase
     {
@@ -24,6 +24,8 @@ namespace CreatorCoreAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
             var creators = await _creatorRepo.GetAllAsync(); 
             
             var creatorDto = creators.Select(c => c.ToCreatorDto());
@@ -31,9 +33,11 @@ namespace CreatorCoreAPI.Controllers
             return Ok(creators);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
             var creator = await _creatorRepo.GetByIdAsync(id);
             
             if(creator == null)
@@ -45,15 +49,19 @@ namespace CreatorCoreAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateCreatorRequestDto creatorDto)
         {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
             var creatorModel = creatorDto.ToCreatorFromCreateDto();
             await _creatorRepo.CreateAsync(creatorModel);
             return CreatedAtAction(nameof(GetById), new { id = creatorModel.creatorID }, creatorModel.ToCreatorDto());
         }
 
         [HttpPut]
-        [Route("{id}")]
+        [Route("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateCreatorRequestDto updateDto)
         {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
             var creatorModel = await _creatorRepo.UpdateAsync(id, updateDto);
 
             if(creatorModel == null)
@@ -63,9 +71,11 @@ namespace CreatorCoreAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("{id}")]
+        [Route("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
             var creatorMode = await _creatorRepo.DeleteAsync(id);
 
             if(creatorMode == null)

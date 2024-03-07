@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using CreatorCoreAPI.Dtos.Transaction;
@@ -10,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CreatorCoreAPI.Controllers
 {
-    [Route("creatorCoreAPI/transaction")]
+    [Route("creatorCoreAPI/[Controller]")]
     [ApiController]
     public class TransactionController: Controller
     {
@@ -26,6 +27,9 @@ namespace CreatorCoreAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var transactions = await _transactionRepo.GetAllAsync();
 
             var transactionDto = transactions.Select(t => t.ToTransactionDto());
@@ -34,9 +38,12 @@ namespace CreatorCoreAPI.Controllers
 
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var transaction = await _transactionRepo.GetByIdAsync(id);
 
             if(transaction == null)
@@ -46,14 +53,17 @@ namespace CreatorCoreAPI.Controllers
         }
 
 
-        [HttpPost("{creatorID}")]
-        public async Task<IActionResult> Create([FromRoute] int creatorID, CreateTransactionDto transactionDto)
+        [HttpPost("{creatorId:int}")]
+        public async Task<IActionResult> Create([FromRoute] int creatorId, CreateTransactionDto transactionDto)
         {
-            if(!await _creatorRepo.CreatorExists(creatorID))
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if(!await _creatorRepo.CreatorExists(creatorId))
                 return BadRequest("Creator Doesnt exist bro !!!");
             else
             {
-                var transactionMode = transactionDto.ToTransactionFromCreate(creatorID);
+                var transactionMode = transactionDto.ToTransactionFromCreate(creatorId);
 
                 await _transactionRepo.CreateAsyn(transactionMode);
 
@@ -64,21 +74,30 @@ namespace CreatorCoreAPI.Controllers
 
 
         [HttpPut]
-        [Route("{id}")]
+        [Route("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id, UpdateTransactionRequestDto updateDto)
         {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var transaction = await _transactionRepo.UpdateAsync(id, updateDto.ToTransactionFromUpdate());
 
             if(transaction == null)
                 return NotFound("TRANSACTION NOT FOUND DUMMY !!!");           
-            else
-               return Ok(transaction.ToTransactionDto());
+            else{
+                Debug.WriteLine("Updated");
+                return Ok(transaction.ToTransactionDto());
+            }
+               
         }
 
         [HttpDelete]
-        [Route("{id}")]
+        [Route("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var transactionModel = await _transactionRepo.DeleteAsync(id);
 
             if(transactionModel == null)
