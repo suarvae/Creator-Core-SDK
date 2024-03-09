@@ -3,11 +3,11 @@ using CreatorCoreAPI.Dtos.Creator;
 using CreatorCoreAPI.Interfaces;
 using CreatorCoreAPI.Mappers;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using CreatorCoreAPI.Helpers;
 
 namespace CreatorCoreAPI.Controllers
 {
-    [Route("creatorCoreAPI/[Controller)]")]
+    [Route("creatorCoreAPI/creator")]
     [ApiController]
     public class CreatorController: ControllerBase
     {
@@ -22,11 +22,12 @@ namespace CreatorCoreAPI.Controllers
         } 
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery]QueryObject query)
         {
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var creators = await _creatorRepo.GetAllAsync(); 
+
+            var creators = await _creatorRepo.GetAllAsync(query); 
             
             var creatorDto = creators.Select(c => c.ToCreatorDto());
 

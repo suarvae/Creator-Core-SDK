@@ -16,7 +16,6 @@ namespace CreatorCoreAPI.Data
         }
 
         public DbSet<Creator> Creators{get;set;}
-        public DbSet<Client> Clients{get;set;}
         public DbSet<Transaction> Transactions{get;set;}
         
     }

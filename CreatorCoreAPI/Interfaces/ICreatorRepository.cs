@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CreatorCoreAPI.Data;
 using CreatorCoreAPI.Dtos.Creator;
+using CreatorCoreAPI.Helpers;
 using CreatorCoreAPI.Models;
 using CreatorCoreAPI.Repository;
 
@@ -11,7 +12,7 @@ namespace CreatorCoreAPI.Interfaces
 {
     public interface ICreatorRepository
     {
-       Task<List<Creator>> GetAllAsync();
+       Task<List<Creator>> GetAllAsync(QueryObject query);
 
       Task<Creator?> GetByIdAsync(int id);
 

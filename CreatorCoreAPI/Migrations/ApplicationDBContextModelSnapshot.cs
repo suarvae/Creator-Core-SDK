@@ -22,19 +22,6 @@ namespace CreatorCoreAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CreatorCoreAPI.Models.Client", b =>
-                {
-                    b.Property<int>("clientID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("clientID"));
-
-                    b.HasKey("clientID");
-
-                    b.ToTable("Clients");
-                });
-
             modelBuilder.Entity("CreatorCoreAPI.Models.Creator", b =>
                 {
                     b.Property<int>("creatorID")
@@ -69,9 +56,6 @@ namespace CreatorCoreAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("transactionID"));
 
-                    b.Property<int?>("clientID")
-                        .HasColumnType("int");
-
                     b.Property<int?>("creatorID")
                         .HasColumnType("int");
 
@@ -87,8 +71,6 @@ namespace CreatorCoreAPI.Migrations
 
                     b.HasKey("transactionID");
 
-                    b.HasIndex("clientID");
-
                     b.HasIndex("creatorID");
 
                     b.ToTable("Transactions");
@@ -96,15 +78,9 @@ namespace CreatorCoreAPI.Migrations
 
             modelBuilder.Entity("CreatorCoreAPI.Models.Transaction", b =>
                 {
-                    b.HasOne("CreatorCoreAPI.Models.Client", "client")
-                        .WithMany()
-                        .HasForeignKey("clientID");
-
                     b.HasOne("CreatorCoreAPI.Models.Creator", "creator")
                         .WithMany("transactions")
                         .HasForeignKey("creatorID");
-
-                    b.Navigation("client");
 
                     b.Navigation("creator");
                 });

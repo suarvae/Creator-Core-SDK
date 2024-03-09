@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CreatorCoreAPI.Controllers
 {
-    [Route("creatorCoreAPI/[Controller]")]
+    [Route("creatorCoreAPI/transaction")]
     [ApiController]
     public class TransactionController: Controller
     {
@@ -67,7 +67,7 @@ namespace CreatorCoreAPI.Controllers
 
                 await _transactionRepo.CreateAsyn(transactionMode);
 
-                return CreatedAtAction(nameof(GetById), new{id = transactionMode}, transactionMode.ToTransactionDto());
+                return CreatedAtAction(nameof(GetById), new{id = transactionMode.creatorID}, transactionMode.ToTransactionDto());
             }
 
         }

@@ -1,7 +1,8 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
+
 using System.Threading.Tasks;
 
 namespace CreatorCoreAPI.Models
@@ -17,8 +18,5 @@ namespace CreatorCoreAPI.Models
 
         public int? creatorID{get;set;}
         public Creator? creator{get;set;}
-        public int? clientID{get;set;}
-        public Client? client{get;set;}
-        
     }
 }

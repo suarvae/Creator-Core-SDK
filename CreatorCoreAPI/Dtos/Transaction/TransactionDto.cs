@@ -14,8 +14,5 @@ namespace CreatorCoreAPI.Dtos.Transaction
         public DateTime transactionDate{get;set;} = DateTime.Now;
 
         public int? creatorID{get;set;}
-
-        public int? clientID{get;set;}
-        
     }
 }

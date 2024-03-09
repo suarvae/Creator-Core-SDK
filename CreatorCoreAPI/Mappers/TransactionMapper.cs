@@ -16,7 +16,6 @@ namespace CreatorCoreAPI.Mappers
                 transactionDate = transactionModel.transactionDate,
                 
                 creatorID = transactionModel.creatorID,
-                clientID = transactionModel.clientID,
             };
         }
 
@@ -24,12 +23,9 @@ namespace CreatorCoreAPI.Mappers
         {
             return new Transaction()
             {
-                itemName = transactionDto.itemName,               
-                
+                itemName = transactionDto.itemName,                             
                 transactionValue = transactionDto.transactionValue,
-
                 creatorID = id
-
             };
         }
 

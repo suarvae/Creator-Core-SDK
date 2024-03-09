@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using CreatorCoreAPI.Data;
 using CreatorCoreAPI.Dtos.Creator;
+using CreatorCoreAPI.Helpers;
 using CreatorCoreAPI.Interfaces;
 using CreatorCoreAPI.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -45,9 +46,32 @@ namespace CreatorCoreAPI.Repository
             }
         }
 
-        public async Task<List<Creator>> GetAllAsync()
+        public async Task<List<Creator>> GetAllAsync(QueryObject query)
         {
-          return await _context.Creators.Include(t => t.transactions).ToListAsync();
+            var creator = _context.Creators.Include(t => t.transactions).AsQueryable();
+
+            if(!string.IsNullOrWhiteSpace(query.CreatorName))
+            {
+                creator = creator.Where(c => c.creatorName.Contains(query.CreatorName));
+            }
+
+            if(query.RevenueSplit > 0)
+            {
+                creator = creator.Where(c => c.creatorRevenueSplit >= query.RevenueSplit);
+            }
+
+            if(!string.IsNullOrWhiteSpace(query.SortBy)){
+                
+                if(query.SortBy.Equals("CreatorName", StringComparison.OrdinalIgnoreCase))
+                {
+                    creator = query.IsDescending ? creator.OrderByDescending(c => c.creatorName) : creator.OrderBy(c => c.creatorName);
+                }
+                else if (query.SortBy.Equals("RevenueSplit", StringComparison.OrdinalIgnoreCase))
+                {
+                    creator = query.IsDescending ? creator.OrderByDescending(c => c.creatorRevenueSplit) : creator.OrderBy(c => c.creatorRevenueSplit);
+                }
+            }
+            return await creator.ToListAsync();
         }
 
         public async Task<Creator?> GetByIdAsync(int id)
