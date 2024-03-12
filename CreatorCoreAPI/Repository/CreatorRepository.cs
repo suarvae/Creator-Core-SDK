@@ -71,7 +71,10 @@ namespace CreatorCoreAPI.Repository
                     creator = query.IsDescending ? creator.OrderByDescending(c => c.creatorRevenueSplit) : creator.OrderBy(c => c.creatorRevenueSplit);
                 }
             }
-            return await creator.ToListAsync();
+
+            var skipNumber = (query.PageNumber - 1)* query.PageSize;
+
+            return await creator.Skip(skipNumber).Take(query.PageSize).ToListAsync();
         }
 
         public async Task<Creator?> GetByIdAsync(int id)

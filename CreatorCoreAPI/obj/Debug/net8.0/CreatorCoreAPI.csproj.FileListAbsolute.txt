@@ -277,3 +277,5 @@ C:\Users\MMWA\Desktop\Rave House\Company Tech\Creator Core SDK\CreatorCoreAPI\bi
 C:\Users\MMWA\Desktop\Rave House\Company Tech\Creator Core SDK\CreatorCoreAPI\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 C:\Users\MMWA\Desktop\Rave House\Company Tech\Creator Core SDK\CreatorCoreAPI\bin\Debug\net8.0\Newtonsoft.Json.dll
 C:\Users\MMWA\Desktop\Rave House\Company Tech\Creator Core SDK\CreatorCoreAPI\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
+C:\Users\MMWA\Desktop\Rave House\Company Tech\Creator Core SDK\CreatorCoreAPI\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\MMWA\Desktop\Rave House\Company Tech\Creator Core SDK\CreatorCoreAPI\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
