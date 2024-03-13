@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CreatorCoreAPI.Dtos.Client;
+using CreatorCoreAPI.Interfaces;
 using CreatorCoreAPI.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,11 +13,12 @@ namespace CreatorCoreAPI.Controllers
     public class AccountController: ControllerBase
     {
         private readonly UserManager<AppUser> _userManager;
+        private readonly ITokenService _tokenService;
 
-        public AccountController(UserManager<AppUser> usernamanager)
+        public AccountController(UserManager<AppUser> usernamanager, ITokenService service)
         {
             _userManager = usernamanager;
-            
+            _tokenService = service;
         }
 
     [HttpPost("register")]
@@ -39,7 +41,15 @@ namespace CreatorCoreAPI.Controllers
                     var roleRes = await _userManager.AddToRoleAsync(appUser, "User");
 
                     if(roleRes.Succeeded)
-                        return Ok("USER CREATED");
+                        return Ok
+                        (
+                            new NewUserDto
+                            {
+                            Username = appUser.UserName,
+                            Email= appUser.Email,
+                            Token = _tokenService.CreateToken(appUser)
+                            }
+                        );
                     else
                         return StatusCode(500, roleRes.Errors);
                 } 

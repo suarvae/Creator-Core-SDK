@@ -2,6 +2,7 @@ using CreatorCoreAPI.Data;
 using CreatorCoreAPI.Interfaces;
 using CreatorCoreAPI.Models;
 using CreatorCoreAPI.Repository;
+using CreatorCoreAPI.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -62,6 +63,7 @@ options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
 
 builder.Services.AddScoped<ICreatorRepository, CreatorRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
