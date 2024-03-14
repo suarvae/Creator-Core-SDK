@@ -7,6 +7,7 @@ using CreatorCoreAPI.Interfaces;
 using CreatorCoreAPI.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CreatorCoreAPI.Controllers
 {
@@ -14,15 +15,16 @@ namespace CreatorCoreAPI.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly ITokenService _tokenService;
-
-        public AccountController(UserManager<AppUser> usernamanager, ITokenService service)
+        private readonly SignInManager<AppUser> _signinManager;
+        public AccountController(UserManager<AppUser> usernamanager, ITokenService service, SignInManager<AppUser> signInManager)
         {
             _userManager = usernamanager;
             _tokenService = service;
+            _signinManager = signInManager;
         }
 
-    [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
+        [HttpPost("Register")]
+        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
     {
         try{
             if(!ModelState.IsValid)
@@ -45,9 +47,9 @@ namespace CreatorCoreAPI.Controllers
                         (
                             new NewUserDto
                             {
-                            Username = appUser.UserName,
-                            Email= appUser.Email,
-                            Token = _tokenService.CreateToken(appUser)
+                                Username = appUser.UserName,
+                                Email= appUser.Email,
+                                Token = _tokenService.CreateToken(appUser)
                             }
                         );
                     else
@@ -63,5 +65,29 @@ namespace CreatorCoreAPI.Controllers
             return StatusCode(500, ex);
          }
     }
+   
+   
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
+        {
+            if(!ModelState.IsValid)
+                return BadRequest("LOGIN INFO INVALID :" + ModelState);
+            else{
+                var user = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == loginDto.Username.ToLower());
+                
+                if(user == null) return Unauthorized("Invalid Username");
+                var passwordResult = await _signinManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
+                if(!passwordResult.Succeeded)  return Unauthorized("Username not found and/or password incorrect");
+                return Ok(
+                    new NewUserDto{
+                        Username = user.UserName,
+                        Email = user.Email,
+                        Token = _tokenService.CreateToken(user)
+                    }
+                
+                );
+            }
+
+        }
     }
 }

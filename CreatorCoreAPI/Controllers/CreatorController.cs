@@ -4,6 +4,7 @@ using CreatorCoreAPI.Interfaces;
 using CreatorCoreAPI.Mappers;
 using Microsoft.AspNetCore.Mvc;
 using CreatorCoreAPI.Helpers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CreatorCoreAPI.Controllers
 {
@@ -22,6 +23,7 @@ namespace CreatorCoreAPI.Controllers
         } 
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll([FromQuery]QueryObject query)
         {
             if(!ModelState.IsValid)
