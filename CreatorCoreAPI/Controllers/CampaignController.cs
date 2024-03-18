@@ -13,14 +13,14 @@ namespace CreatorCoreAPI.Controllers
 {
     [Route("creatorCoreAPI/transaction")]
     [ApiController]
-    public class TransactionController: Controller
+    public class CampaignController: Controller
     {
-        private readonly ITransactionRepository _transactionRepo;
+        private readonly ICampaignRepository _campaignRepo;
         private readonly ICreatorRepository _creatorRepo;
         
-        public TransactionController(ITransactionRepository rep, ICreatorRepository creatorRepo)
+        public CampaignController(ICampaignRepository rep, ICreatorRepository creatorRepo)
         {
-            _transactionRepo = rep;
+            _campaignRepo = rep;
             _creatorRepo = creatorRepo;
         }
 
@@ -30,9 +30,9 @@ namespace CreatorCoreAPI.Controllers
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var transactions = await _transactionRepo.GetAllAsync();
+            var transactions = await _campaignRepo.GetAllAsync();
 
-            var transactionDto = transactions.Select(t => t.ToTransactionDto());
+            var transactionDto = transactions.Select(t => t.ToCampaignDto());
 
             return Ok(transactionDto);
 
@@ -44,7 +44,7 @@ namespace CreatorCoreAPI.Controllers
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var transaction = await _transactionRepo.GetByIdAsync(id);
+            var transaction = await _campaignRepo.GetByIdAsync(id);
 
             if(transaction == null)
                 return NotFound();
@@ -65,7 +65,7 @@ namespace CreatorCoreAPI.Controllers
             {
                 var transactionMode = transactionDto.ToTransactionFromCreate(creatorId);
 
-                await _transactionRepo.CreateAsyn(transactionMode);
+                await _campaignRepo.CreateAsyn(transactionMode);
 
                 return CreatedAtAction(nameof(GetById), new{id = transactionMode.creatorID}, transactionMode.ToTransactionDto());
             }
@@ -80,7 +80,7 @@ namespace CreatorCoreAPI.Controllers
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var transaction = await _transactionRepo.UpdateAsync(id, updateDto.ToTransactionFromUpdate());
+            var transaction = await _campaignRepo.UpdateAsync(id, updateDto.ToTransactionFromUpdate());
 
             if(transaction == null)
                 return NotFound("TRANSACTION NOT FOUND DUMMY !!!");           
@@ -98,7 +98,7 @@ namespace CreatorCoreAPI.Controllers
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var transactionModel = await _transactionRepo.DeleteAsync(id);
+            var transactionModel = await _campaignRepo.DeleteAsync(id);
 
             if(transactionModel == null)
             return NotFound("NO TRANSACTION FOUND DUMMY !");
