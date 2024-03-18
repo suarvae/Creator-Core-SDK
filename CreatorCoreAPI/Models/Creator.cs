@@ -10,8 +10,6 @@ namespace CreatorCoreAPI.Models
     {
         public int creatorID {get; set;}
         public string creatorName{get;set;} = string.Empty;
-        
-        public float creatorRevenueSplit {get; set;}
         public decimal creatorRevenue{get;set;} 
         public List<Campaign> campaigns {get;set;} = new();
     }

@@ -18,9 +18,7 @@ namespace CreatorCoreAPI.Mappers
                 creatorID = creatorModel.creatorID,
                 creatorName = creatorModel.creatorName,
                 creatorRevenue = creatorModel.creatorRevenue,
-                creatorRevenueSplit = creatorModel.creatorRevenueSplit,
-                lifeTimeEarnings = creatorModel.lifeTimeEarnings,
-                transactions = creatorModel.transactions.Select(t => t.ToTransactionDto()).ToList()
+                campaigns = creatorModel.campaigns.Select(t => t.ToCampaignDto()).ToList()
             };
         }
 
@@ -29,14 +27,8 @@ namespace CreatorCoreAPI.Mappers
             return new Creator
             {
                 creatorName = createModel.creatorName,
-                creatorRevenueSplit = createModel.creatorRevenueSplit,
                 creatorRevenue = createModel.creatorRevenue,
-                lifeTimeEarnings = createModel.lifeTimeEarnings
             };
-
         }
-
-
-
     }
 }

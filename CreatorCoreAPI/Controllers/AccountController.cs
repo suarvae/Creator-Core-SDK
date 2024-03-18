@@ -24,19 +24,20 @@ namespace CreatorCoreAPI.Controllers
         }
 
         [HttpPost("Register")]
-        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
+        public async Task<IActionResult> Register([FromBody]RegisterDto registerDto)
     {
         try{
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
             else
             {
-                var appUser = new AppUser{
+                var appUser = new AppUser
+                {
                     UserName = registerDto.Username,
                     Email = registerDto.Email
                 };
 
-                var createdUser= await _userManager.CreateAsync(appUser, registerDto.Password);  
+                var createdUser = await _userManager.CreateAsync(appUser, registerDto.Password);  
 
                 if(createdUser.Succeeded)
                 {

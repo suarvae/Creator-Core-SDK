@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CreatorCoreAPI.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240310103639_Identity")]
-    partial class Identity
+    [Migration("20240318084358_InitCreator")]
+    partial class InitCreator
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -90,6 +90,41 @@ namespace CreatorCoreAPI.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("CreatorCoreAPI.Models.Campaign", b =>
+                {
+                    b.Property<int>("campaignId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("campaignId"));
+
+                    b.Property<string>("campaignDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("campaignTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("campaignValue")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("creatorID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("issuedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("startDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("campaignId");
+
+                    b.HasIndex("creatorID");
+
+                    b.ToTable("Campaigns");
+                });
+
             modelBuilder.Entity("CreatorCoreAPI.Models.Creator", b =>
                 {
                     b.Property<int>("creatorID")
@@ -105,43 +140,9 @@ namespace CreatorCoreAPI.Migrations
                     b.Property<decimal>("creatorRevenue")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<float>("creatorRevenueSplit")
-                        .HasColumnType("real");
-
-                    b.Property<long>("lifeTimeEarnings")
-                        .HasColumnType("bigint");
-
                     b.HasKey("creatorID");
 
                     b.ToTable("Creators");
-                });
-
-            modelBuilder.Entity("CreatorCoreAPI.Models.Transaction", b =>
-                {
-                    b.Property<int>("transactionID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("transactionID"));
-
-                    b.Property<int?>("creatorID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("itemName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("transactionDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("transactionValue")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("transactionID");
-
-                    b.HasIndex("creatorID");
-
-                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -169,6 +170,20 @@ namespace CreatorCoreAPI.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "46e93bc8-3704-4a9d-9165-7c2f96420113",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "2fe23e9d-749b-4505-a32b-78c257d36a3c",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -277,10 +292,10 @@ namespace CreatorCoreAPI.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("CreatorCoreAPI.Models.Transaction", b =>
+            modelBuilder.Entity("CreatorCoreAPI.Models.Campaign", b =>
                 {
                     b.HasOne("CreatorCoreAPI.Models.Creator", "creator")
-                        .WithMany("transactions")
+                        .WithMany("campaigns")
                         .HasForeignKey("creatorID");
 
                     b.Navigation("creator");
@@ -339,7 +354,7 @@ namespace CreatorCoreAPI.Migrations
 
             modelBuilder.Entity("CreatorCoreAPI.Models.Creator", b =>
                 {
-                    b.Navigation("transactions");
+                    b.Navigation("campaigns");
                 });
 #pragma warning restore 612, 618
         }

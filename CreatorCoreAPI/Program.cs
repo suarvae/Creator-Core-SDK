@@ -62,7 +62,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
     options.Password.RequireLowercase =true;
     options.Password.RequireUppercase = true;
     options.Password.RequireNonAlphanumeric = true;
-    options.Password.RequiredLength = 12;
+    options.Password.RequiredLength = 8;
 
 }).AddEntityFrameworkStores<ApplicationDBContext>();
 
@@ -91,7 +91,7 @@ options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
 );
 
 builder.Services.AddScoped<ICreatorRepository, CreatorRepository>();
-builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+builder.Services.AddScoped<ICampaignRepository, CampaignRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 var app = builder.Build();
 

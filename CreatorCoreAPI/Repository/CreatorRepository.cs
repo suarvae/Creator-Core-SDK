@@ -48,28 +48,31 @@ namespace CreatorCoreAPI.Repository
 
         public async Task<List<Creator>> GetAllAsync(QueryObject query)
         {
-            var creator = _context.Creators.Include(t => t.transactions).AsQueryable();
+            var creator = _context.Creators.Include(t => t.campaigns).AsQueryable();
 
             if(!string.IsNullOrWhiteSpace(query.CreatorName))
             {
                 creator = creator.Where(c => c.creatorName.Contains(query.CreatorName));
             }
 
+            /* //ARCHIVING FILTER TO USE LATER FOR CAMPAIGN PLACEMENTS AVAILABLE
             if(query.RevenueSplit > 0)
             {
                 creator = creator.Where(c => c.creatorRevenueSplit >= query.RevenueSplit);
             }
-
+            */
             if(!string.IsNullOrWhiteSpace(query.SortBy)){
                 
                 if(query.SortBy.Equals("CreatorName", StringComparison.OrdinalIgnoreCase))
                 {
                     creator = query.IsDescending ? creator.OrderByDescending(c => c.creatorName) : creator.OrderBy(c => c.creatorName);
                 }
+                /* //Still for filtering
                 else if (query.SortBy.Equals("RevenueSplit", StringComparison.OrdinalIgnoreCase))
                 {
                     creator = query.IsDescending ? creator.OrderByDescending(c => c.creatorRevenueSplit) : creator.OrderBy(c => c.creatorRevenueSplit);
                 }
+                */
             }
 
             var skipNumber = (query.PageNumber - 1)* query.PageSize;
@@ -79,7 +82,7 @@ namespace CreatorCoreAPI.Repository
 
         public async Task<Creator?> GetByIdAsync(int id)
         {
-            return await _context.Creators.Include(t => t.transactions).FirstOrDefaultAsync(i => i.creatorID == id);
+            return await _context.Creators.Include(t => t.campaigns).FirstOrDefaultAsync(i => i.creatorID == id);
         }
 
         public async Task<Creator?> UpdateAsync(int id, UpdateCreatorRequestDto creatorRequestDto)
@@ -92,9 +95,6 @@ namespace CreatorCoreAPI.Repository
             {
                 creator.creatorName = creatorRequestDto.creatorName;
                 creator.creatorRevenue = creatorRequestDto.creatorRevenue;
-                creator.creatorRevenueSplit = creatorRequestDto.creatorRevenueSplit;
-                creator.lifeTimeEarnings = creatorRequestDto.lifeTimeEarnings;
-                
                 await _context.SaveChangesAsync();
                 
                 return creator;

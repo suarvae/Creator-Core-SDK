@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CreatorCoreAPI.Controllers
 {
-    [Route("creatorCoreAPI/creator")]
+    [Route("creatorCoreAPI/[Controller]")]
     [ApiController]
     public class CreatorController: ControllerBase
     {

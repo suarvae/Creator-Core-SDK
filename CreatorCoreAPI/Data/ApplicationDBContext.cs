@@ -18,7 +18,7 @@ namespace CreatorCoreAPI.Data
         }
 
         public DbSet<Creator> Creators{get;set;}
-        public DbSet<Transaction> Transactions{get;set;}
+        public DbSet<Campaign> Campaigns{get;set;}
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

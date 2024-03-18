@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CreatorCoreAPI.Controllers
 {
-    [Route("creatorCoreAPI/transaction")]
+    [Route("creatorCoreAPI/[Controller]")]
     [ApiController]
     public class CampaignController: Controller
     {
@@ -49,12 +49,12 @@ namespace CreatorCoreAPI.Controllers
             if(transaction == null)
                 return NotFound();
             else
-                return Ok(transaction.ToTransactionDto());
+                return Ok(transaction.ToCampaignDto());
         }
 
 
         [HttpPost("{creatorId:int}")]
-        public async Task<IActionResult> Create([FromRoute] int creatorId, CreateTransactionDto transactionDto)
+        public async Task<IActionResult> Create([FromRoute] int creatorId, CreateCampaignDto transactionDto)
         {
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -63,11 +63,11 @@ namespace CreatorCoreAPI.Controllers
                 return BadRequest("Creator Doesnt exist bro !!!");
             else
             {
-                var transactionMode = transactionDto.ToTransactionFromCreate(creatorId);
+                var transactionMode = transactionDto.ToCampaignFromCreate(creatorId);
 
                 await _campaignRepo.CreateAsyn(transactionMode);
 
-                return CreatedAtAction(nameof(GetById), new{id = transactionMode.creatorID}, transactionMode.ToTransactionDto());
+                return CreatedAtAction(nameof(GetById), new{id = transactionMode.creatorID}, transactionMode.ToCampaignDto());
             }
 
         }
@@ -75,7 +75,7 @@ namespace CreatorCoreAPI.Controllers
 
         [HttpPut]
         [Route("{id:int}")]
-        public async Task<IActionResult> Update([FromRoute] int id, UpdateTransactionRequestDto updateDto)
+        public async Task<IActionResult> Update([FromRoute] int id, UpdateCampaignRequestDto updateDto)
         {
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -86,7 +86,7 @@ namespace CreatorCoreAPI.Controllers
                 return NotFound("TRANSACTION NOT FOUND DUMMY !!!");           
             else{
                 Debug.WriteLine("Updated");
-                return Ok(transaction.ToTransactionDto());
+                return Ok(transaction.ToCampaignDto());
             }
                
         }

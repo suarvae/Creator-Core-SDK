@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace CreatorCoreAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class Identity : Migration
+    public partial class InitCreator : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -48,6 +50,20 @@ namespace CreatorCoreAPI.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Creators",
+                columns: table => new
+                {
+                    creatorID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    creatorName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    creatorRevenue = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Creators", x => x.creatorID);
                 });
 
             migrationBuilder.CreateTable(
@@ -156,6 +172,38 @@ namespace CreatorCoreAPI.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Campaigns",
+                columns: table => new
+                {
+                    campaignId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    campaignTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    campaignDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    campaignValue = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    issuedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    startDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    creatorID = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Campaigns", x => x.campaignId);
+                    table.ForeignKey(
+                        name: "FK_Campaigns_Creators_creatorID",
+                        column: x => x.creatorID,
+                        principalTable: "Creators",
+                        principalColumn: "creatorID");
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "2fe23e9d-749b-4505-a32b-78c257d36a3c", null, "User", "USER" },
+                    { "46e93bc8-3704-4a9d-9165-7c2f96420113", null, "Admin", "ADMIN" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -194,6 +242,11 @@ namespace CreatorCoreAPI.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Campaigns_creatorID",
+                table: "Campaigns",
+                column: "creatorID");
         }
 
         /// <inheritdoc />
@@ -215,10 +268,16 @@ namespace CreatorCoreAPI.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Campaigns");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Creators");
         }
     }
 }
